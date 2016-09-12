@@ -9,13 +9,21 @@ var appRoutes = require('./routes/app');
 
 var app = express();
 
+console.log(app.get('env'));
+if (app.get('env') !== 'production') {
+
+  // expose node_modules to client app
+  app.use(express.static(__dirname + "/node_modules"));
+}
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app')));
 
 app.use('/test', appRoutes);
 
